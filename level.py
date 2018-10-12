@@ -41,6 +41,9 @@ class Level:
 #                               METHODS
 #------------------------------------------------------------------------
 
-        
-        
+        def whichElementIsInTheLevel(self):
+            """We search in _grilleCSV which element is present in the level.
+            And we return a list of those elements."""
+            for row in self._get_grille_csv():
+                print(row)
                 
