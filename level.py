@@ -115,12 +115,6 @@ class Level:
 
         #Now that our elements are in each case. We set the attributes : grille
         self._set_grille(listRow)
-        for row in self._get_grille():
-            for cell in row:
-                if cell is None:
-                    print("case vide")
-                else:
-                    cell.getInfo()
                         
                         
     def whichElementIsInTheLevel(self):
