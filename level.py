@@ -2,6 +2,7 @@
 
 import csv
 from element import Element
+from cell import Cell
 
 class Level:
     """Class containing all the attributes for a level """
@@ -10,6 +11,7 @@ class Level:
         self.numLevel = numLevel
         self._grilleCSV = list()
         self._elements = list()
+        self._grille = list()
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
@@ -23,6 +25,13 @@ class Level:
 #------------------------------------------------------------------------
 #                           GETTERS AND SETTERS
 #------------------------------------------------------------------------
+    def _get_grille(self):
+        """Getters for grille : list of all the cell in the level"""
+        return self._grille
+
+    def _set_grille(self, listOfElementsInTheirCell):
+        """Setter for grille : list of all the cell in the level"""
+        self._grille = listOfElementsInTheirCell
 
     def _get_grille_csv(self):
         """Getters for _grilleCSV """
@@ -40,13 +49,15 @@ class Level:
                 self._grilleCSV.append(rowSplitted)
 
     def _get_elements(self):
+        """Getters for the list of elements of the level"""
         return self._elements
 
     def _set_elements(self, elements):
+        """Setters for the list of elements of the level"""
         self._elements = elements
 
-        
     elements = property(_get_elements, _set_elements)
+    grille = property(_get_grille, _set_grille)
     grilleCSV = property(_get_grille_csv, _set_grille_csv)
 
 #------------------------------------------------------------------------
@@ -66,12 +77,50 @@ class Level:
                     rowSplitted = row.split(":")
 
                     if rowSplitted[0] == element: #rowSplitted[0] is the symbol of the element
+                        elementSymbol = rowSplitted[0]
                         elementSkin = rowSplitted[1] #rowSplitted[1] is the path to get its skin
                         elementName = rowSplitted[2] #rowSplitted[2] is the name of the element
-                        elementToCreate = Element(elementSkin, elementName)
+                        elementIsDangerous = rowSplitted[3]
+                        elementToCreate = Element(elementName, elementSymbol, elementSkin, elementIsDangerous)
                         listElementObjects.append(elementToCreate)
 
+        #Now we can set our list of elements that are in the level
         self._set_elements(listElementObjects)
+
+    def fillTableWithElements(self):
+        "We are going to fill the table with all the elements"
+
+        listRow = list()
+        listCell = list()
+        i = 0
+        j = 0
+
+        #We read each line and cell of grille_csv and add the real class element
+        #in a table (list of lists)
+        for row in self._get_grille_csv():
+            j = 0
+            
+            for cell in row:
+                #We search which element is equal to the symbol in the current cell
+                for element in self._get_elements():
+                    if cell == element.symbol:
+                        currentCell = Cell(i, j, element)
+                        listCell.append(currentCell)
+                    else:
+                        listCell.append(None)
+                j = j + 1
+            i = i + 1
+
+            listRow.append(listCell)
+
+        #Now that our elements are in each case. We set the attributes : grille
+        self._set_grille(listRow)
+        for row in self._get_grille():
+            for cell in row:
+                if cell is None:
+                    print("case vide")
+                else:
+                    cell.getInfo()
                         
                         
     def whichElementIsInTheLevel(self):
@@ -91,5 +140,4 @@ class Level:
                     listElements.append(cell)
 
         self.loadingLevelElements(listElements)
-
-                
+              
