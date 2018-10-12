@@ -1,0 +1,3 @@
+X:resources/img/mur.png:mur
+D:resources/img/depart.png:depart
+F:resources/img/arrivee.png:arrivee
