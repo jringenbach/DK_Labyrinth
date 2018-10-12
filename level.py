@@ -31,9 +31,11 @@ class Level:
         We read the csv file and copy it into _grilleCSV"""
         with open(self.csvPath, "r") as csvFile:
             fileRead = csv.reader(csvFile, delimiter=",")
+
+            #We read each row of the csv file
             for row in fileRead:
-                self._grilleCSV.append(row)
-        
+                rowSplitted = row[0].split(";")
+                self._grilleCSV.append(rowSplitted)
 
     grilleCSV = property(_get_grille_csv, _set_grille_csv)
 
@@ -41,9 +43,18 @@ class Level:
 #                               METHODS
 #------------------------------------------------------------------------
 
-        def whichElementIsInTheLevel(self):
-            """We search in _grilleCSV which element is present in the level.
-            And we return a list of those elements."""
-            for row in self._get_grille_csv():
-                print(row)
+    def whichElementIsInTheLevel(self):
+        """We search in _grilleCSV which element is present in the level.
+        And we return a list of those elements."""
+
+        listElements = list()
+        
+        for row in self._get_grille_csv():
+            for cell in row:
+                if cell in listElements or cell == "":
+                    pass
+                
+                else:
+                    listElements.append(cell)
+        print(listElements)
                 
