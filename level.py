@@ -87,6 +87,14 @@ class Level:
         #Now we can set our list of elements that are in the level
         self._set_elements(listElementObjects)
 
+    def loadingLevelForDisplay(self):
+        """Regroup all the methods that loads the elements of the level in self._grille """
+
+        #We load all the elements and the table of the level selected       self._set_grille_csv()
+        self.whichElementIsInTheLevel()
+        self.fillTableWithElements()
+        print("Level loaded successfully")
+
     def fillTableWithElements(self):
         "We are going to fill the table with all the elements"
 
