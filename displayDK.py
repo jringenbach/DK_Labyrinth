@@ -8,7 +8,7 @@ import eventHandler
 import pygame
 import loading
 from pygame.locals import *
-from level import Level
+from classes.level import Level
 
 def displayTitleScreen(titleScreenImgPath):
     """Method where I configure how the title screen is displayed """

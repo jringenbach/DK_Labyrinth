@@ -1,8 +1,7 @@
 # -*- coding : utf-8 -*-
 
-import numpy
 import pygame
-from level import Level
+from classes.level import Level
 import displayDK
 
 #Display main menu where you can select levels

@@ -1,6 +1,6 @@
 # -*- coding : utf-8 -*-
 
-from level import Level
+from classes.level import Level
 import displayDK
 
 def exitTitleScreen(playerAction):
