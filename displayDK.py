@@ -52,6 +52,17 @@ def displayLevel(numLevel):
     level = Level(numLevel)
     level.loadingLevelForDisplay()
 
+    #We place each element with their pixels position on the screen
+    for row in level._get_grille():
+        for cell in row:
+            if cell is not None:
+                pos_x = cell.x * 30
+                pos_y = cell.x * 30
+                elementPNG = pygame.image.load(cell.element.skin).convert_alpha()
+                window.blit(elementPNG, (pos_x, pos_y))
+                
+    pygame.display.flip()
+
 def displayLevelSelection():
     """Screen where all the levels unlocked are listed """
     print("Level selection method")
