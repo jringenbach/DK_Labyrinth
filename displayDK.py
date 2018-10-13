@@ -9,6 +9,7 @@ import pygame
 import loading
 from pygame.locals import *
 from classes.level import Level
+from classes.player import Player
 
 window = pygame.display.set_mode((450,450))
 
@@ -68,12 +69,17 @@ def displayLevel(numLevel):
                 pos_y = cell.pos_y * 30
                 elementPNG = pygame.image.load(cell.element.skin).convert_alpha()
                 window.blit(elementPNG, (pos_x, pos_y))
-                pygame.display.flip()
 
             else:
-                pygame.display.flip()
                 print("On ne place rien")
 
+    #We place the player on the table
+    print("X start :"+str(level.start[0]))
+    player = Player(level.start[0], level.start[1])
+    playerPNG = pygame.image.load(player.character.skin).convert_alpha()
+    window.blit(playerPNG, (player.pos_x, player.pos_y))
+    pygame.display.flip()
+                
     continuer = 1
 
     while continuer:

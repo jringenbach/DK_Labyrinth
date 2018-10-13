@@ -13,6 +13,7 @@ class Level:
         self._grilleCSV = list()
         self._elements = list()
         self._grille = list()
+        self._start = (0,0)
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
@@ -57,9 +58,18 @@ class Level:
         """Setters for the list of elements of the level"""
         self._elements = elements
 
+    def _get_start(self):
+        """Getters for start element which is a tuple of the coordinates """
+        return self._start
+
+    def _set_start(self, coordinates):
+        """Setters for start element which is a tuple of the coordinates """
+        self._start = coordinates
+
     elements = property(_get_elements, _set_elements)
     grille = property(_get_grille, _set_grille)
     grilleCSV = property(_get_grille_csv, _set_grille_csv)
+    start = property(_get_start, _set_start)
 
 #------------------------------------------------------------------------
 #                               METHODS
@@ -94,12 +104,14 @@ class Level:
 
         #We load all the elements and the table of the level selected       self._set_grille_csv()
         self._set_grille_csv()
+        startCoordinates = self.searchingForStartCoordinates()
+        self._set_start(startCoordinates)
         self.whichElementIsInTheLevel()
         self.fillTableWithElements()
 
 
     def fillTableWithElements(self):
-        "We are going to fill the table with all the elements"
+        "We are going to fill the table with all the cell objects"
 
         listRow = list()
         listCell = list()
@@ -126,7 +138,18 @@ class Level:
 
         #Now that our elements are in each case. We set the attributes : grille
         self._set_grille(listRow)
-                        
+
+    def searchingForStartCoordinates(self):
+        i = 0
+        for row in self._get_grille_csv():
+            j = 0
+            for cell in row:
+                if cell == "D":
+                    return (i,j)
+                j = j + 1
+
+            i = i + 1
+                       
                         
     def whichElementIsInTheLevel(self):
         """We search in _grilleCSV which element is present in the level.
