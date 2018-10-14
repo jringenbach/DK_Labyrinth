@@ -93,7 +93,8 @@ class Level:
                         elementSkin = rowSplitted[1] #rowSplitted[1] is the path to get its skin
                         elementName = rowSplitted[2] #rowSplitted[2] is the name of the element
                         elementIsDangerous = rowSplitted[3]
-                        elementToCreate = Element(elementName, elementSymbol, elementSkin, elementIsDangerous)
+                        elementBlocksThePlayer = bool(rowSplitted[4])
+                        elementToCreate = Element(elementName, elementSymbol, elementSkin, elementIsDangerous, elementBlocksThePlayer)
                         listElementObjects.append(elementToCreate)
 
         #Now we can set our list of elements that are in the level
@@ -122,15 +123,23 @@ class Level:
         #in a table (list of lists)
         for row in self._get_grille_csv():
             j = 0
-            
+            listCell = list()
+
             for cell in row:
                 #We search which element is equal to the symbol in the current cell
+
+                k = 0
+                findSomething = False
+                
                 for element in self._get_elements():
                     if cell == element.symbol:
-                        currentCell = Cell(i, j, element)
+                        currentCell = Cell(j, i, element)
                         listCell.append(currentCell)
-                    else:
+                        findSomething = True
+                        
+                    if findSomething == False and k >= 2:
                         listCell.append(None)
+                    k = k + 1
                 j = j + 1
             i = i + 1
 
@@ -169,4 +178,12 @@ class Level:
                     listElements.append(cell)
 
         self.loadingLevelElements(listElements)
+
+    def printGrille(self):
+        """Print the table with all the elements """
+
+        print("Length grille : "+str(len(self._get_grille())))
+        for row in self._get_grille():
+            print("Length row : "+str(len(row)))
+
               

@@ -29,9 +29,8 @@ def displayTitleScreen(titleScreenImgPath):
     continuer = 1
     while continuer:
         for event in pygame.event.get():
-            print("Continuer : "+str(continuer))
+
             if event.type == KEYDOWN: 
-                print("Une touche a été pressée")
                 playerAction = eventHandler.eventTitleScreen(event)
                 continuer = loading.exitTitleScreen(playerAction)
                 
@@ -45,7 +44,18 @@ def displayTitleScreen(titleScreenImgPath):
     loading.whatToLoadFromTitleScreen(playerAction)
         
 
-            
+def displayGrille(level):
+    """We place all elements on the table"""
+    for row in level._get_grille():
+        for cell in row:
+            if cell is not None:
+                pos_x = cell.pos_x * 30
+                pos_y = cell.pos_y * 30
+                elementPNG = pygame.image.load(cell.element.skin).convert_alpha()
+                window.blit(elementPNG, (pos_x, pos_y))
+
+            else:
+                pass
 
     
 def displayLevel(numLevel):
@@ -62,22 +72,13 @@ def displayLevel(numLevel):
     pygame.display.flip()
 
     #We place each element with their pixels position on the screen
-    for row in level._get_grille():
-        for cell in row:
-            if cell is not None:
-                pos_x = cell.pos_x * 30
-                pos_y = cell.pos_y * 30
-                elementPNG = pygame.image.load(cell.element.skin).convert_alpha()
-                window.blit(elementPNG, (pos_x, pos_y))
-
-            else:
-                print("On ne place rien")
+    displayGrille(level)
 
     #We place the player on the table
-    print("X start :"+str(level.start[0]))
-    player = Player(level.start[0], level.start[1])
+    player = Player()
     playerPNG = pygame.image.load(player.character.skin).convert_alpha()
-    window.blit(playerPNG, (player.pos_x, player.pos_y))
+    player.positionRect = playerPNG.get_rect(x = level.start[0]*30, y = level.start[1] * 30)
+    window.blit(playerPNG, player.positionRect)
     pygame.display.flip()
                 
     continuer = 1
@@ -86,6 +87,14 @@ def displayLevel(numLevel):
         for event in pygame.event.get():
             if event.type == QUIT:
                 continuer = 0
+
+            #If the player press a key, we check if he can move
+            elif event.type == KEYDOWN:
+                player.move(level, event)
+                window.blit(background, (0,0))
+                displayGrille(level)
+                window.blit(playerPNG, (player.positionRect.x * 30, player.positionRect.y*30))
+                pygame.display.flip()
            
 
 
