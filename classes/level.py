@@ -2,6 +2,7 @@
 
 import csv
 import pygame
+import boolean
 from classes.element import Element
 from classes.cell import Cell
 
@@ -93,7 +94,7 @@ class Level:
                         elementSkin = rowSplitted[1] #rowSplitted[1] is the path to get its skin
                         elementName = rowSplitted[2] #rowSplitted[2] is the name of the element
                         elementIsDangerous = rowSplitted[3]
-                        elementBlocksThePlayer = bool(rowSplitted[4])
+                        elementBlocksThePlayer = boolean.strToBool(rowSplitted[4])
                         elementToCreate = Element(elementName, elementSymbol, elementSkin, elementIsDangerous, elementBlocksThePlayer)
                         listElementObjects.append(elementToCreate)
 
