@@ -95,6 +95,7 @@ def displayLevel(numLevel):
                 displayGrille(level)
                 window.blit(playerPNG, (player.positionRect.x * 30, player.positionRect.y*30))
                 pygame.display.flip()
+                level.checkEndLevel(player)
            
 
 

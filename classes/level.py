@@ -5,6 +5,7 @@ import pygame
 import boolean
 from classes.element import Element
 from classes.cell import Cell
+import displayDK
 
 class Level:
     """Class containing all the attributes for a level """
@@ -15,15 +16,20 @@ class Level:
         self._elements = list()
         self._grille = list()
         self._start = (0,0)
+        self._end = (14,14)
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
             i = 1
             for line in fileRead:
                 if i == self.numLevel:
+                    print(line)
+                    line = line.replace("\n","")
                     self.csvPath = line
                 else:
-                    i = i + 1
+                    pass
+                
+                i=i+1
 
 #------------------------------------------------------------------------
 #                           GETTERS AND SETTERS
@@ -67,7 +73,16 @@ class Level:
         """Setters for start element which is a tuple of the coordinates """
         self._start = coordinates
 
+    def _get_end(self):
+        """ Getters for the position of the end of the level"""
+        return self._end
+
+    def _set_end(self, coordinates):
+        """Setters for the position of the end of the level """
+        self._end = coordinates
+
     elements = property(_get_elements, _set_elements)
+    end = property(_get_end, _set_end)
     grille = property(_get_grille, _set_grille)
     grilleCSV = property(_get_grille_csv, _set_grille_csv)
     start = property(_get_start, _set_start)
@@ -75,6 +90,19 @@ class Level:
 #------------------------------------------------------------------------
 #                               METHODS
 #------------------------------------------------------------------------
+    def checkEndLevel(self, player):
+        """We check if the player has reached the end of the level """
+
+        playerCoordinates = (player.positionRect.x, player.positionRect.y)
+
+        #If the player coordinates match the end coordinates, he/she goes to
+        #next level
+        if playerCoordinates == self._get_end():
+            displayDK.displayLevel(self.numLevel+1)
+
+        else:
+            pass
+        
 
     def loadingLevelElements(self, listElements):
         """We create a list of element objects depending on which
@@ -106,8 +134,6 @@ class Level:
 
         #We load all the elements and the table of the level selected       self._set_grille_csv()
         self._set_grille_csv()
-        startCoordinates = self.searchingForStartCoordinates()
-        self._set_start(startCoordinates)
         self.whichElementIsInTheLevel()
         self.fillTableWithElements()
 
@@ -137,6 +163,12 @@ class Level:
                         currentCell = Cell(j, i, element)
                         listCell.append(currentCell)
                         findSomething = True
+
+                        if cell == "D":
+                            self._set_start((j,i))
+
+                        elif cell == "F":
+                            self._set_end((j,i))
                         
                     if findSomething == False and k >= 2:
                         listCell.append(None)
@@ -148,17 +180,6 @@ class Level:
 
         #Now that our elements are in each case. We set the attributes : grille
         self._set_grille(listRow)
-
-    def searchingForStartCoordinates(self):
-        i = 0
-        for row in self._get_grille_csv():
-            j = 0
-            for cell in row:
-                if cell == "D":
-                    return (i,j)
-                j = j + 1
-
-            i = i + 1
                        
                         
     def whichElementIsInTheLevel(self):

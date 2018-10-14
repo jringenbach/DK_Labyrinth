@@ -1,1 +1,2 @@
 resources/levels/level1.csv
+resources/levels/level2.csv

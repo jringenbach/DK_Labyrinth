@@ -70,5 +70,9 @@ class Player:
                 print("Player goes down")
                 self.positionRect = self.positionRect.move(0, 1)
 
+        #If he presses anything else. Nothing happens.
+        else:
+            pass
+
 
             

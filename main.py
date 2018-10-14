@@ -1,8 +1,9 @@
 # -*- coding : utf-8 -*-
 
 import pygame
-from classes.level import Level
 import displayDK
+from classes.level import Level
+
 
 #Display main menu where you can select levels
 pygame.init()
