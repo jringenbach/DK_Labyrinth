@@ -19,13 +19,19 @@ class Player:
     def move(self, level, event):
         """We check if the player can move regarding of the key that has been
         pressed. If he will pass through a wall, we stop the player from doing
-        that."""
+        that.
+
+        Attributes:
+        :level: level where the player is currently (class Level)
+        :event: action event (a key has been pressed for example class pygame.event)
+
+        """
 
         player_pos_x = self.positionRect.x
         player_pos_y = self.positionRect.y
         nextCell = list()
         
-        #If the player press "right"
+        #If the player presses "right"
         if event.key == K_RIGHT and player_pos_x < 14:
             nextCell = level._get_grille()[player_pos_y][player_pos_x+1]
             self.character.skin = "resources/img/sprites/dk_right.png"
@@ -37,7 +43,7 @@ class Player:
                 print("Player goes right")
                 self.positionRect = self.positionRect.move(1, 0)
 
-        #If the player press "left"
+        #If the player presses "left"
         elif event.key == K_LEFT and player_pos_x > 0:
             nextCell = level._get_grille()[player_pos_y][player_pos_x-1]
             self.character.skin = "resources/img/sprites/dk_left.png"
@@ -49,7 +55,7 @@ class Player:
                 print("Player goes left")
                 self.positionRect = self.positionRect.move(-1, 0)
 
-        #If the player press "up"
+        #If the player presses "up"
         elif event.key == K_UP and player_pos_y > 0:
             nextCell = level._get_grille()[player_pos_y-1][player_pos_x]
             self.character.skin = "resources/img/sprites/dk_up.png"
@@ -62,7 +68,7 @@ class Player:
                 print("Player goes up")
                 self.positionRect = self.positionRect.move(0, -1)
 
-        #If the player press "down"
+        #If the player presses "down"
         elif event.key == K_DOWN and player_pos_y < 14:
             nextCell = level._get_grille()[player_pos_y+1][player_pos_x]
             self.character.skin = "resources/img/sprites/dk_down.png"

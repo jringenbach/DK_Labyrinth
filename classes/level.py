@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+#------------------------------------------------------------------------
+#                               IMPORT
+#------------------------------------------------------------------------
+
+
 import csv
 import pygame
 import boolean
@@ -7,8 +12,25 @@ from classes.element import Element
 from classes.cell import Cell
 import displayDK
 
+#------------------------------------------------------------------------
+#                               CLASS
+#------------------------------------------------------------------------
+
+
 class Level:
-    """Class containing all the attributes for a level """
+    """Class containing all the attributes for a level
+
+    Attributes:
+    :numLevel: Number of the level (int)
+    :_grilleCSV: a list that contains multiple lists containing cell of the game that were loaded from a csv in a string format
+    :_elements: list of elements that we can find in the level
+    :_grille: a list that contains multiple lists containing cell with element objects
+    :_start: coordinates of the start element (where the player starts the level)
+    :_end: coordinates of the end element
+    :_spikes: list that contains all coordinates of the spikes in the level
+    :_scrolls: list that contains all coordinates of the scrolls in the level
+    
+    """
 
     def __init__(self, numLevel):
         self.numLevel = numLevel
@@ -179,8 +201,6 @@ class Level:
         "We are going to fill the table with all the cell objects"
 
         listRow = list()
-        listOfSpikes = list()
-        listOfScrolls = list()
         i = 0
         j = 0
 
@@ -203,22 +223,8 @@ class Level:
                         listCell.append(currentCell)
                         findSomething = True
 
-                        #If it is the start element
-                        if cell == "D":
-                            self._set_start((j,i))
-
-                        #If it is the end of the level element
-                        elif cell == "F":
-                            self._set_end((j,i))
-
-                        #If it is a spike
-                        elif cell == "S":
-                            listOfSpikes.append((j,i))
-                            
-
-                        #If it is a scroll
-                        elif cell == "P":
-                            listOfScrolls.append((j,i))
+                        #We set the coordinates of elements in level attributes : start, end, spikes, scrolls
+                        self.setElementsCoordinates(cell, j, i)
 
 
                     #We need to get the number elements minus 1 to get a functional
@@ -236,8 +242,6 @@ class Level:
 
         #Now that our elements are in each case. We set the attributes : grille, spikes, scrolls
         self._set_grille(listRow)
-        self._set_spikes(listOfSpikes)
-        self._set_scrolls(listOfScrolls)
                        
                         
     def whichElementIsInTheLevel(self):
@@ -284,4 +288,22 @@ class Level:
                     print(cell+",", end="")
             print(")")
 
+    def setElementsCoordinates(self, symbol, x, y):
+        """ Set the coordinates of the elements in start, end, spikes, scrolls"""
+        #If it is the start element
+        if symbol == "D":
+            self._set_start((x,y))
+
+        #If it is the end of the level element
+        elif symbol == "F":
+            self._set_end((x,y))
+
+        #If it is a spike
+        elif symbol == "S":
+            self._get_spikes().append((x,y))
+                            
+        #If it is a scroll
+        elif symbol == "P":
+            self._get_scrolls().append((x,y))    
+        
               
