@@ -29,7 +29,8 @@ class Level:
     :_end: coordinates of the end element
     :_spikes: list that contains all coordinates of the spikes in the level
     :_scrolls: list that contains all coordinates of the scrolls in the level
-    
+    :_keys: list that contains all coordinates of the keys in the level
+    :_box: list that contains all coordinates of the boxes in the level
     """
 
     def __init__(self, numLevel):
@@ -42,6 +43,7 @@ class Level:
         self._spikes = list()
         self._scrolls = list()
         self._keys = list()
+        self._boxes = list()
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
@@ -130,6 +132,14 @@ class Level:
         """Setters for the list of keys in the level """
         self._keys = listOfKeys
 
+    def _get_boxes(self):
+        """Getters for the list of boxes in the level"""
+        return self._boxes
+
+    def _set_boxes(self, listOfBoxes):
+        """Setters for the list of Boxes in the level"""
+        self._boxes = listOfBoxes
+
     elements = property(_get_elements, _set_elements)
     end = property(_get_end, _set_end)
     grille = property(_get_grille, _set_grille)
@@ -138,6 +148,7 @@ class Level:
     spikes = property(_get_spikes, _set_spikes)
     scrolls = property(_get_scrolls, _set_scrolls)
     keys = property(_get_keys, _set_keys)
+    boxes = property(_get_boxes, _set_boxes)
 
 #------------------------------------------------------------------------
 #                               METHODS
