@@ -9,6 +9,8 @@ import os
 import pygame
 import loading
 from pygame.locals import *
+from classes.cell import Cell
+from classes.scrolls import Scrolls
 from classes.level import Level
 from classes.player import Player
 
@@ -91,8 +93,9 @@ def displayLevel(numLevel):
     #We place the player on the table
     player = Player()
     playerPNG = pygame.image.load(player.character.skin).convert_alpha()
-    player.positionRect = playerPNG.get_rect(x = level.start[0]*30, y = level.start[1] * 30)
-    window.blit(playerPNG, player.positionRect)
+    player.positionRect = playerPNG.get_rect(x = level.start[0], y = level.start[1])
+    print("Position joueur : ["+str(player.positionRect.x)+","+str(player.positionRect.y)+"]")
+    window.blit(playerPNG, (player.positionRect.x*30, player.positionRect.y*30))
     pygame.display.flip()
                 
     continuer = 1

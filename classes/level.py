@@ -10,6 +10,7 @@ import pygame
 import boolean
 from classes.element import Element
 from classes.cell import Cell
+from classes.scrolls import Scrolls
 import displayDK
 
 #------------------------------------------------------------------------
@@ -44,19 +45,23 @@ class Level:
         self._scrolls = list()
         self._keys = list()
         self._boxes = list()
+        self.csvPath = None
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
             i = 1
             for line in fileRead:
                 if i == self.numLevel:
-                    print(line)
                     line = line.replace("\n","")
                     self.csvPath = line
                 else:
                     pass
                 
                 i=i+1
+
+            #If the level table in csv hasn't been found, we go back to title screen
+            if self.csvPath is None:
+                displayDK.displayTitleScreen("resources/img/titleScreen_450_450.png")
 
 #------------------------------------------------------------------------
 #                           GETTERS AND SETTERS
@@ -212,10 +217,6 @@ class Level:
         self._set_grille_csv()
         self.whichElementIsInTheLevel()
         self.fillTableWithElements()
-        print("spikes")
-        print(self._get_spikes())
-        print("scrolls")
-        print(self._get_scrolls())
 
 
     def fillTableWithElements(self):
