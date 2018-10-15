@@ -17,6 +17,8 @@ class Level:
         self._grille = list()
         self._start = (0,0)
         self._end = (14,14)
+        self._spikes = list()
+        self._scrolls = list()
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
@@ -81,11 +83,29 @@ class Level:
         """Setters for the position of the end of the level """
         self._end = coordinates
 
+    def _get_spikes(self):
+        """ Getters for the list of spikes in the level"""
+        return self._spikes
+
+    def _set_spikes(self, listOfSpikes):
+        """ Setters for the list of spikes in the level"""
+        self._spikes = listOfSpikes
+
+    def _get_scrolls(self):
+        """ Getters for the list of scrolls in the level"""
+        return self._scrolls
+
+    def _set_scrolls(self, listOfScrolls):
+        """ Setters for the list of scrolls in the level"""
+        self._scrolls = listOfScrolls
+
     elements = property(_get_elements, _set_elements)
     end = property(_get_end, _set_end)
     grille = property(_get_grille, _set_grille)
     grilleCSV = property(_get_grille_csv, _set_grille_csv)
     start = property(_get_start, _set_start)
+    spikes = property(_get_spikes, _set_spikes)
+    scrolls = property(_get_scrolls, _set_scrolls)
 
 #------------------------------------------------------------------------
 #                               METHODS
@@ -103,6 +123,19 @@ class Level:
         else:
             pass
         
+
+    def checkPlayerDies(self, player):
+        """We check if the player has landed on a spike """
+        listOfSpikesCoordinates = self._get_spikes()
+        playerCoordinates = (player.positionRect.x, player.positionRect.y)
+        
+        if listOfSpikesCoordinates is not None:
+            for spike in listOfSpikesCoordinates:
+                if playerCoordinates == spike:
+                    displayDK.displayLevel(self.numLevel)
+                    
+            
+                    
 
     def loadingLevelElements(self, listElements):
         """We create a list of element objects depending on which
@@ -136,12 +169,18 @@ class Level:
         self._set_grille_csv()
         self.whichElementIsInTheLevel()
         self.fillTableWithElements()
+        print("spikes")
+        print(self._get_spikes())
+        print("scrolls")
+        print(self._get_scrolls())
 
 
     def fillTableWithElements(self):
         "We are going to fill the table with all the cell objects"
 
         listRow = list()
+        listOfSpikes = list()
+        listOfScrolls = list()
         i = 0
         j = 0
 
@@ -151,6 +190,7 @@ class Level:
             j = 0
             listCell = list()
 
+            
             for cell in row:
                 #We search which element is equal to the symbol in the current cell
 
@@ -163,11 +203,23 @@ class Level:
                         listCell.append(currentCell)
                         findSomething = True
 
+                        #If it is the start element
                         if cell == "D":
                             self._set_start((j,i))
 
+                        #If it is the end of the level element
                         elif cell == "F":
                             self._set_end((j,i))
+
+                        #If it is a spike
+                        elif cell == "S":
+                            listOfSpikes.append((j,i))
+                            
+
+                        #If it is a scroll
+                        elif cell == "P":
+                            listOfScrolls.append((j,i))
+
 
                     #We need to get the number elements minus 1 to get a functional
                     #filling table method
@@ -177,12 +229,15 @@ class Level:
                     k = k + 1
                 j = j + 1
             i = i + 1
+
             
             listRow.append(listCell)
             
 
-        #Now that our elements are in each case. We set the attributes : grille
+        #Now that our elements are in each case. We set the attributes : grille, spikes, scrolls
         self._set_grille(listRow)
+        self._set_spikes(listOfSpikes)
+        self._set_scrolls(listOfScrolls)
                        
                         
     def whichElementIsInTheLevel(self):

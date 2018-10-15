@@ -1,0 +1,6 @@
+X : Mur
+D : Départ
+F : Arrivée (Fin)
+S : Spikes
+P : Scrolls
+K : Key

@@ -110,6 +110,7 @@ def displayLevel(numLevel):
                 playerPNG = pygame.image.load(player.character.skin).convert_alpha()
                 window.blit(playerPNG, (player.positionRect.x * 30, player.positionRect.y*30))
                 pygame.display.flip()
+                level.checkPlayerDies(player)
                 level.checkEndLevel(player)
            
 
