@@ -12,6 +12,7 @@ from classes.level import Level
 from classes.player import Player
 
 window = pygame.display.set_mode((450,450))
+playerAction = None
 
 def displayTitleScreen(titleScreenImgPath):
     """Method where I configure how the title screen is displayed """
@@ -22,8 +23,8 @@ def displayTitleScreen(titleScreenImgPath):
     window.blit(titleScreen, (0,0))
 
     #Setting the new game button for the title screen
-    newGame = pygame.image.load("resources/img/new_game_resized.png").convert()
-    window.blit(newGame, (320, 240))
+    """newGame = pygame.image.load("resources/img/new_game_resized.png").convert()
+    window.blit(newGame, (320, 240))"""
     pygame.display.flip()
 
     continuer = 1

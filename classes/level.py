@@ -142,7 +142,6 @@ class Level:
         "We are going to fill the table with all the cell objects"
 
         listRow = list()
-        listCell = list()
         i = 0
         j = 0
 
@@ -169,14 +168,16 @@ class Level:
 
                         elif cell == "F":
                             self._set_end((j,i))
-                        
-                    if findSomething == False and k >= 2:
+
+                    nbElementsInTheLevel = len(self._get_elements())                        
+                    if findSomething == False and k >= nbElementsInTheLevel - 1:
                         listCell.append(None)
                     k = k + 1
                 j = j + 1
             i = i + 1
-
+            
             listRow.append(listCell)
+            
 
         #Now that our elements are in each case. We set the attributes : grille
         self._set_grille(listRow)
@@ -206,6 +207,24 @@ class Level:
 
         print("Length grille : "+str(len(self._get_grille())))
         for row in self._get_grille():
-            print("Length row : "+str(len(row)))
+            print("(", end="")
+            for cell in row:
+                if cell is None:
+                    print(" ,", end="")
+                else:
+                    print(cell.element.name+",", end="")
+            print(")")
+
+    def printGrilleCSV(self):
+        """Print the csv table that we get from levelx.csv"""
+        print("Length grillecsv : "+str(len(self._get_grille_csv())))
+        for row in self._get_grille_csv():
+            print("(", end="")
+            for cell in row:
+                if cell == "":
+                    print(" ,", end="")
+                else:
+                    print(cell+",", end="")
+            print(")")
 
               
