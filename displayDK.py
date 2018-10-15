@@ -20,7 +20,7 @@ from classes.player import Player
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #Window where the game is displayed
-window = pygame.display.set_mode((450,450))
+window = pygame.display.set_mode((450,600))
 playerAction = None
 
 #------------------------------------------------------------------------

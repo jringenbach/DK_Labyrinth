@@ -1,4 +1,5 @@
 X:resources/img/mur.png:mur:False:True:
 D:resources/img/depart.png:depart:False:False:
 F:resources/img/arrivee.png:arrivee:False:False:
-S:resources/img/spikes.png:spikes:True:False:
+S:resources/img/spikes_30_30.png:spikes:True:False:
+P:resources/img/scroll_30_30.png:scroll:False:False:
