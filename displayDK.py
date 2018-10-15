@@ -1,18 +1,31 @@
 # -*- coding : utf-8 -*-
 
 #------------------------------------------------------------------------
-#                               METHODS
+#                               LIB IMPORT
 #------------------------------------------------------------------------
 
 import eventHandler
+import os
 import pygame
 import loading
 from pygame.locals import *
 from classes.level import Level
 from classes.player import Player
 
+#------------------------------------------------------------------------
+#                               GLOBAL VARIABLE
+#------------------------------------------------------------------------
+
+#Center the window of the game at the center of the computer screen
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
+#Window where the game is displayed
 window = pygame.display.set_mode((450,450))
 playerAction = None
+
+#------------------------------------------------------------------------
+#                               METHODS
+#------------------------------------------------------------------------
 
 def displayTitleScreen(titleScreenImgPath):
     """Method where I configure how the title screen is displayed """
