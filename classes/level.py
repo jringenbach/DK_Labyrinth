@@ -41,6 +41,7 @@ class Level:
         self._end = (14,14)
         self._spikes = list()
         self._scrolls = list()
+        self._keys = list()
 
         #We search the corresponding csv file depending on the level
         with open("resources/levelFiles.txt", "r") as fileRead:
@@ -121,6 +122,14 @@ class Level:
         """ Setters for the list of scrolls in the level"""
         self._scrolls = listOfScrolls
 
+    def _get_keys(self, listOfKeys):
+        """Getters for the list of keys in the level"""
+        return self._keys
+
+    def _set_keys(self, listOfKeys):
+        """Setters for the list of keys in the level """
+        self._keys = listOfKeys
+
     elements = property(_get_elements, _set_elements)
     end = property(_get_end, _set_end)
     grille = property(_get_grille, _set_grille)
@@ -128,6 +137,7 @@ class Level:
     start = property(_get_start, _set_start)
     spikes = property(_get_spikes, _set_spikes)
     scrolls = property(_get_scrolls, _set_scrolls)
+    keys = property(_get_keys, _set_keys)
 
 #------------------------------------------------------------------------
 #                               METHODS
@@ -304,6 +314,10 @@ class Level:
                             
         #If it is a scroll
         elif symbol == "P":
-            self._get_scrolls().append((x,y))    
+            self._get_scrolls().append((x,y))
+
+        #If it is a key
+        elif symbol == "K":
+            self._get_keys().append((x,y))
         
               
