@@ -94,6 +94,7 @@ def displayLevel(numLevel):
                 player.move(level, event)
                 window.blit(background, (0,0))
                 displayGrille(level)
+                playerPNG = pygame.image.load(player.character.skin).convert_alpha()
                 window.blit(playerPNG, (player.positionRect.x * 30, player.positionRect.y*30))
                 pygame.display.flip()
                 level.checkEndLevel(player)

@@ -169,6 +169,8 @@ class Level:
                         elif cell == "F":
                             self._set_end((j,i))
 
+                    #We need to get the number elements minus 1 to get a functional
+                    #filling table method
                     nbElementsInTheLevel = len(self._get_elements())                        
                     if findSomething == False and k >= nbElementsInTheLevel - 1:
                         listCell.append(None)
@@ -203,7 +205,7 @@ class Level:
         self.loadingLevelElements(listElements)
 
     def printGrille(self):
-        """Print the table with all the elements """
+        """Print the table with all the elements"""
 
         print("Length grille : "+str(len(self._get_grille())))
         for row in self._get_grille():
