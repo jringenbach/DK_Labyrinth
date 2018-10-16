@@ -24,7 +24,6 @@ from classes.player import Player
 
 """
 
-#Window where the game is displayed
 firstPixel = None
 playerAction = None
 
@@ -33,7 +32,9 @@ playerAction = None
 #------------------------------------------------------------------------
 
 def displayTitleScreen(titleScreenImgPath, window):
-    """Method where I configure how the title screen is displayed """
+    """Method where I set how the title screen is displayed """
+
+    playerAction = ""
 
     #Setting the image for the title screen
     #window = pygame.display.set_mode((640,480))
@@ -50,24 +51,25 @@ def displayTitleScreen(titleScreenImgPath, window):
     #Display the title screen as long as the player presses wrong key
     while continuer:
         for event in pygame.event.get():
-
+            
             if event.type == KEYDOWN: 
                 playerAction = eventHandler.eventTitleScreen(event)
                 continuer = loading.exitTitleScreen(playerAction)
                 
             elif event.type == QUIT:
+                playerAction = "Quit_the_game"
                 continuer = 0
-
-            elif event.type == MOUSEBUTTONDOWN:
-                continuer = 0
-
 
     return playerAction
     
 def displayGrille(level, firstPixel, window):
-    """We place all elements on the table"""
+    """We place all elements on the table
 
-    print("firstPixel : "+str(firstPixel))
+    Attributes:
+    :firstPixel: first pixel to display on the width of the screen to get the game centered in the window
+    :window: pygame.Surface object where the game is displayed
+    """
+
     for row in level._get_grille():
         for cell in row:
             if cell.element is not None:
@@ -90,7 +92,13 @@ def displayLevel(numLevel, window):
    
     #We create the object Level and load its elements
     level = Level(numLevel)
-    level.loadingLevelForDisplay()
+
+    #If it couldn't find a level in levelFile, it means the game is finished and
+    #we display the title screen
+    if level.csvPath is None:
+        return "Title_Screen"
+    else:
+        level.loadingLevelForDisplay()
 
     #We calculate where should be the center of the game on the screen in order
     #to display correctly all elements
@@ -110,7 +118,7 @@ def displayLevel(numLevel, window):
     player = Player()
     playerPNG = pygame.image.load(player.character.skin).convert_alpha()
     player.positionRect = playerPNG.get_rect(x = level.start[0], y = level.start[1])
-    print("Position joueur : ["+str(player.positionRect.x)+","+str(player.positionRect.y)+"]")
+    
     window.blit(playerPNG, (firstPixel+player.positionRect.x*30, player.positionRect.y*30))
     pygame.display.flip()
                 
@@ -144,12 +152,7 @@ def displayLevel(numLevel, window):
 
             #If the player press a key, we check if he can move
             elif event.type == KEYDOWN:
-
-                #We reset the screen by filling it with black color
-
                 player.move(level, event)
-                print("x : "+str(player.positionRect.x))
-                print("y : "+str(player.positionRect.y))
 
                 #If the player dies, he goes back to the starting point of the current level
                 level.checkPlayerDies(player)
@@ -163,13 +166,13 @@ def displayLevel(numLevel, window):
            
 
 
-def displayLevelSelection():
+def displayLevelSelection(window):
     """Screen where all the levels unlocked are listed """
     numberOfLevels = loading.howManyLevels()
 
     for x in range(0, numberOfLevels):
         messageFont = pygame.font.SysFont("comicsansms", 18)
-        messageRender = messageFont.render(self.message, True, (255,255,255))
+        messageRender = messageFont.render("Niveau "+str(x+1), True, (255,255,255))
         window.blit(messageRender, (0,450))
         pygame.display.flip()
     
@@ -182,13 +185,10 @@ def centerTheGameOnTheScreen(windowWidth, gameWidth):
     :windowWidth: width of the window : int
     :gameWidth: width of the game : int    
     """
-    print("window width : "+str(windowWidth))
-    print("game width : "+str(gameWidth))
-    blankSpace = windowWidth - gameWidth
-    print("Blank Space : "+str(blankSpace))
-    firstPixel = blankSpace / 2
-    print("firstPixel : "+str(firstPixel))
 
+    blankSpace = windowWidth - gameWidth
+    firstPixel = blankSpace / 2
+    
     return firstPixel
 
     

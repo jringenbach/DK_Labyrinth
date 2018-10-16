@@ -27,7 +27,7 @@ def eventTitleScreen(event):
 
         #The player wants to quit the game
         elif event.key == K_3:
-            playerChoice = "Quitter"
+            playerChoice = "Quit_the_game"
 
         #The player presses anything
         else:

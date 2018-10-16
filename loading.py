@@ -14,7 +14,7 @@ def exitTitleScreen(playerAction):
         print("Le joueur va à la sélection des niveaux.")
         return 0
 
-    elif playerAction == "Quitter":
+    elif playerAction == "Quit_the_game":
         print("Le joueur quitte le programme")
         return 0
 

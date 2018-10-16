@@ -60,10 +60,6 @@ class Level:
                 
                 i=i+1
 
-            #If the level table in csv hasn't been found, we go back to title screen
-            if self.csvPath is None:
-                displayDK.displayTitleScreen("resources/img/titleScreen_640_480.png")
-
 #------------------------------------------------------------------------
 #                           GETTERS AND SETTERS
 #------------------------------------------------------------------------
@@ -202,7 +198,6 @@ class Level:
 
         #If the player is indeed on a scroll, we display the message
         if cell.element is not None and cell.element.name == "scroll":
-            print(cell.element.message)
             cell.element.displayMessageOnWindow(window)
                     
 
@@ -344,7 +339,6 @@ class Level:
         """ Set the coordinates of the elements in start, end, spikes, scrolls"""
         #If it is the start element
         if symbol == "D":
-            print("Départ : "+"("+str(x)+","+str(y)+")")
             self._set_start((x,y))
 
         #If it is the end of the level element
