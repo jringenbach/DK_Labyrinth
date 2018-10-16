@@ -85,82 +85,92 @@ def displayGrille(level, firstPixel, window):
 def displayLevel(numLevel, window):
     """Display the level the player has selected """
     print("Chargement du niveau "+str(numLevel))
+    loadLevel = True
 
-    #String that will go back to main and let the program knows what to do next
-    #Go to next level? Quit the game?
-    action = ""
-   
-    #We create the object Level and load its elements
-    level = Level(numLevel)
+    #While we need to reload the same level (for restart or a death for example)
+    #We reload it
+    while loadLevel == True:
+        #String that will go back to main and let the program knows what to do next
+        #Go to next level? Quit the game?
+        action = ""
+       
+        #We create the object Level and load its elements
+        level = Level(numLevel)
 
-    #If it couldn't find a level in levelFile, it means the game is finished and
-    #we display the title screen
-    if level.csvPath is None:
-        return "Title_Screen"
-    else:
-        level.loadingLevelForDisplay()
+        #If it couldn't find a level in levelFile, it means the game is finished and
+        #we display the title screen
+        if level.csvPath is None:
+            return "Title_Screen"
+        else:
+            level.loadingLevelForDisplay()
 
-    #We calculate where should be the center of the game on the screen in order
-    #to display correctly all elements
-    gameWidth = len(level._get_grille()[0]) * 30
-    firstPixel = centerTheGameOnTheScreen(window.get_width(), gameWidth)
+        #We calculate where should be the center of the game on the screen in order
+        #to display correctly all elements
+        gameWidth = len(level._get_grille()[0]) * 30
+        firstPixel = centerTheGameOnTheScreen(window.get_width(), gameWidth)
 
-    #We set a new background image
-    window.fill(pygame.Color("black"))
-    background = pygame.image.load("resources/img/fond.jpg").convert()
-    window.blit(background, (firstPixel,0))
-    pygame.display.flip()
-
-    #We place each element with their pixels position on the screen
-    displayGrille(level, firstPixel, window)
-
-    #We place the player on the table
-    player = Player()
-    playerPNG = pygame.image.load(player.character.skin).convert_alpha()
-    player.positionRect = playerPNG.get_rect(x = level.start[0], y = level.start[1])
-    
-    window.blit(playerPNG, (firstPixel+player.positionRect.x*30, player.positionRect.y*30))
-    pygame.display.flip()
-                
-    continuer = 1
-
-    #We display the level while the player hasn't finished it
-    while continuer:
-
-        #We display background and elements of the level again
-        window.fill(pygame.Color("Black"))
-
-        #We load the background image
+        #We set a new background image
+        window.fill(pygame.Color("black"))
+        background = pygame.image.load("resources/img/fond.jpg").convert()
         window.blit(background, (firstPixel,0))
+        pygame.display.flip()
 
-        #We load the table of elements with their graphics
+        #We place each element with their pixels position on the screen
         displayGrille(level, firstPixel, window)
 
-        #We load the player character (donkey kong)
+        #We place the player on the table
+        player = Player()
         playerPNG = pygame.image.load(player.character.skin).convert_alpha()
-        window.blit(playerPNG, (firstPixel + player.positionRect.x * 30, player.positionRect.y*30))
-
-        #If the player walked on a scroll, we display its message
-        level.checkPlayerOnScroll(player, window)
-
-        pygame.display.flip()
+        player.positionRect = playerPNG.get_rect(x = level.start[0], y = level.start[1])
         
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                action = "Quit_the_game"
-                continuer = 0
+        window.blit(playerPNG, (firstPixel+player.positionRect.x*30, player.positionRect.y*30))
+        pygame.display.flip()
+                    
+        continuer = 1
 
-            #If the player press a key, we check if he can move
-            elif event.type == KEYDOWN:
-                player.move(level, event)
+        #We display the level while the player hasn't finished it
+        while continuer:
 
-                #If the player dies, he goes back to the starting point of the current level
-                level.checkPlayerDies(player)
-                   
-                #If player walks on the finish line, he goes to next level
-                if level.checkEndLevel(player):
+            #We display background and elements of the level again
+            window.fill(pygame.Color("Black"))
+
+            #We load the background image
+            window.blit(background, (firstPixel,0))
+
+            #We load the table of elements with their graphics
+            displayGrille(level, firstPixel, window)
+
+            #We load the player character (donkey kong)
+            playerPNG = pygame.image.load(player.character.skin).convert_alpha()
+            window.blit(playerPNG, (firstPixel + player.positionRect.x * 30, player.positionRect.y*30))
+
+            #If the player walked on a scroll, we display its message
+            level.checkPlayerOnScroll(player, window)
+
+            pygame.display.flip()
+            
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    action = "Quit_the_game"
+                    loadLevel = False
                     continuer = 0
-                    action = "Next_level"
+
+                #If the player press a key, we check if he can move
+                elif event.type == KEYDOWN:
+                    if event.key == K_r:
+                        continuer = 0
+                    else:
+                        player.move(level, event)
+
+                    #If the player dies, he goes back to the starting point of the current level
+                    if level.checkPlayerDies(player):
+                        continuer = 0
+                       
+                    #If player walks on the finish line, he goes to next level
+                    if level.checkEndLevel(player):
+                        continuer = 0
+                        loadLevel = False
+                        action = "Next_level"
 
     return action
            

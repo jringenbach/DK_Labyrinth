@@ -51,6 +51,7 @@ while quit_game == False:
     #We look for what we have to load depending on the choice of the player
     if playerChoice == "Nouvelle Partie":
         numLevel = 1
+        keep_playing = True
         
         #We load the first level
         while keep_playing:

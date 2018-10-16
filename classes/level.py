@@ -180,8 +180,7 @@ class Level:
         if listOfSpikesCoordinates is not None:
             for spike in listOfSpikesCoordinates:
                 if playerCoordinates == spike:
-                    player.positionRect.x = self._get_start()[0]
-                    player.positionRect.y = self._get_start()[1]
+                    return True
                     
 
     def checkPlayerOnScroll(self, player, window):
