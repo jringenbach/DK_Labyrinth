@@ -177,13 +177,15 @@ class Level:
 
     def checkPlayerDies(self, player):
         """We check if the player has landed on a spike """
+
         listOfSpikesCoordinates = self._get_spikes()
         playerCoordinates = (player.positionRect.x, player.positionRect.y)
-        
+
         if listOfSpikesCoordinates is not None:
             for spike in listOfSpikesCoordinates:
                 if playerCoordinates == spike:
-                    displayDK.displayLevel(self.numLevel)
+                    player.positionRect.x = self._get_start()[0]
+                    player.positionRect.y = self._get_start()[1]
                     
 
     def checkPlayerOnScroll(self, player, window):
@@ -342,6 +344,7 @@ class Level:
         """ Set the coordinates of the elements in start, end, spikes, scrolls"""
         #If it is the start element
         if symbol == "D":
+            print("Départ : "+"("+str(x)+","+str(y)+")")
             self._set_start((x,y))
 
         #If it is the end of the level element

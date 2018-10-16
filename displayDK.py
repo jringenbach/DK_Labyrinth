@@ -5,7 +5,6 @@
 #------------------------------------------------------------------------
 
 import eventHandler
-import os
 import pygame
 import loading
 from pygame.locals import *
@@ -18,21 +17,22 @@ from classes.player import Player
 #                               GLOBAL VARIABLE
 #------------------------------------------------------------------------
 
-#Center the window of the game at the center of the computer screen
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+"""
+
+:firstPixel: the first pixel of the width where the game (and not the screen) has to be displayed
+:playerAction: action that the player chooses in the titleScreen : string
+
+"""
 
 #Window where the game is displayed
 firstPixel = None
-windowWidth = 640
-windowHeight = 480
-window = pygame.display.set_mode((windowWidth,windowHeight))
 playerAction = None
 
 #------------------------------------------------------------------------
 #                               METHODS
 #------------------------------------------------------------------------
 
-def displayTitleScreen(titleScreenImgPath):
+def displayTitleScreen(titleScreenImgPath, window):
     """Method where I configure how the title screen is displayed """
 
     #Setting the image for the title screen
@@ -64,7 +64,7 @@ def displayTitleScreen(titleScreenImgPath):
 
     return playerAction
     
-def displayGrille(level, firstPixel):
+def displayGrille(level, firstPixel, window):
     """We place all elements on the table"""
 
     print("firstPixel : "+str(firstPixel))
@@ -80,7 +80,7 @@ def displayGrille(level, firstPixel):
                 pass
 
     
-def displayLevel(numLevel):
+def displayLevel(numLevel, window):
     """Display the level the player has selected """
     print("Chargement du niveau "+str(numLevel))
 
@@ -104,7 +104,7 @@ def displayLevel(numLevel):
     pygame.display.flip()
 
     #We place each element with their pixels position on the screen
-    displayGrille(level, firstPixel)
+    displayGrille(level, firstPixel, window)
 
     #We place the player on the table
     player = Player()
@@ -118,6 +118,25 @@ def displayLevel(numLevel):
 
     #We display the level while the player hasn't finished it
     while continuer:
+
+        #We display background and elements of the level again
+        window.fill(pygame.Color("Black"))
+
+        #We load the background image
+        window.blit(background, (firstPixel,0))
+
+        #We load the table of elements with their graphics
+        displayGrille(level, firstPixel, window)
+
+        #We load the player character (donkey kong)
+        playerPNG = pygame.image.load(player.character.skin).convert_alpha()
+        window.blit(playerPNG, (firstPixel + player.positionRect.x * 30, player.positionRect.y*30))
+
+        #If the player walked on a scroll, we display its message
+        level.checkPlayerOnScroll(player, window)
+
+        pygame.display.flip()
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 action = "Quit_the_game"
@@ -125,21 +144,17 @@ def displayLevel(numLevel):
 
             #If the player press a key, we check if he can move
             elif event.type == KEYDOWN:
+
                 #We reset the screen by filling it with black color
-                window.fill(pygame.Color("black"))
+
                 player.move(level, event)
+                print("x : "+str(player.positionRect.x))
+                print("y : "+str(player.positionRect.y))
 
-                #We display background and elements of the level again
-                window.blit(background, (firstPixel,0))
-                displayGrille(level, firstPixel)
-                playerPNG = pygame.image.load(player.character.skin).convert_alpha()
-                window.blit(playerPNG, (firstPixel + player.positionRect.x * 30, player.positionRect.y*30))
-                pygame.display.flip()
-
-                #We do multiple checks at the end of the player turn to see if
-                #he/she is on scroll, dies or wins.
-                level.checkPlayerOnScroll(player, window)
+                #If the player dies, he goes back to the starting point of the current level
                 level.checkPlayerDies(player)
+                   
+                #If player walks on the finish line, he goes to next level
                 if level.checkEndLevel(player):
                     continuer = 0
                     action = "Next_level"
@@ -150,8 +165,14 @@ def displayLevel(numLevel):
 
 def displayLevelSelection():
     """Screen where all the levels unlocked are listed """
-    print("Level selection method")
-    pass
+    numberOfLevels = loading.howManyLevels()
+
+    for x in range(0, numberOfLevels):
+        messageFont = pygame.font.SysFont("comicsansms", 18)
+        messageRender = messageFont.render(self.message, True, (255,255,255))
+        window.blit(messageRender, (0,450))
+        pygame.display.flip()
+    
 
 def centerTheGameOnTheScreen(windowWidth, gameWidth):
     """Method that calculates where the first pixel of the width of the game

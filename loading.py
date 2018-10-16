@@ -29,4 +29,18 @@ def exitTitleScreen(playerAction):
     else:
         return 1
 
+def howManyLevels():
+    """Calculate the number of level present in the game by counting the number
+    of csv files that exist for those levels"""
+
+    totalLevels = 0
+
+    #We read each line and count how many there are in the file that contains
+    #all the paths for the levels
+    with open("resources/levelFiles.txt", "r") as listOfLevelPaths:
+        for line in listOfLevelPaths:
+            totalLevels = totalLevels + 1
+
+    return totalLevels
+
 

@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+#------------------------------------------------------------------------
+#                               IMPORT
+#------------------------------------------------------------------------
+
+
 import pygame
 from pygame.locals import *
 from classes.element import Element
