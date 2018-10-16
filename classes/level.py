@@ -62,7 +62,7 @@ class Level:
 
             #If the level table in csv hasn't been found, we go back to title screen
             if self.csvPath is None:
-                displayDK.displayTitleScreen("resources/img/titleScreen_450_450.png")
+                displayDK.displayTitleScreen("resources/img/titleScreen_640_480.png")
 
 #------------------------------------------------------------------------
 #                           GETTERS AND SETTERS

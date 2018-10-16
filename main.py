@@ -7,4 +7,4 @@ from classes.level import Level
 
 #Display main menu where you can select levels
 pygame.init()
-displayDK.displayTitleScreen("resources/img/titleScreen_450_450.png")
+displayDK.displayTitleScreen("resources/img/titleScreen_640_480.png")

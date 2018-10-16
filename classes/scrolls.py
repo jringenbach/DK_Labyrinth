@@ -3,6 +3,12 @@
 import pygame
 from pygame.locals import *
 from classes.element import Element
+import displayDK
+
+#------------------------------------------------------------------------
+#                               CLASS
+#------------------------------------------------------------------------
+
 
 class Scrolls(Element):
     """Scrolls inherit from Element.
@@ -11,6 +17,10 @@ class Scrolls(Element):
     def __init__(self, message):
         Element.__init__(self, "scroll", "P", "resources/img/sprites/scroll_30_30.png", False, False)
         self.message = message
+
+#------------------------------------------------------------------------
+#                               METHODS
+#------------------------------------------------------------------------
 
     def loadScrollFromFile(self, x, y, level):
         """Find the scroll to load in the csv file that contains all the scrolls
