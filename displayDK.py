@@ -61,10 +61,9 @@ def displayTitleScreen(titleScreenImgPath):
             elif event.type == MOUSEBUTTONDOWN:
                 continuer = 0
 
-    #We look for what we have to load depending on the choice of the player
-    loading.whatToLoadFromTitleScreen(playerAction)
-        
 
+    return playerAction
+    
 def displayGrille(level, firstPixel):
     """We place all elements on the table"""
 
@@ -85,6 +84,9 @@ def displayLevel(numLevel):
     """Display the level the player has selected """
     print("Chargement du niveau "+str(numLevel))
 
+    #String that will go back to main and let the program knows what to do next
+    #Go to next level? Quit the game?
+    action = ""
    
     #We create the object Level and load its elements
     level = Level(numLevel)
@@ -118,6 +120,7 @@ def displayLevel(numLevel):
     while continuer:
         for event in pygame.event.get():
             if event.type == QUIT:
+                action = "Quit_the_game"
                 continuer = 0
 
             #If the player press a key, we check if he can move
@@ -137,7 +140,11 @@ def displayLevel(numLevel):
                 #he/she is on scroll, dies or wins.
                 level.checkPlayerOnScroll(player, window)
                 level.checkPlayerDies(player)
-                level.checkEndLevel(player)
+                if level.checkEndLevel(player):
+                    continuer = 0
+                    action = "Next_level"
+
+    return action
            
 
 

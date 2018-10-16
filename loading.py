@@ -29,19 +29,4 @@ def exitTitleScreen(playerAction):
     else:
         return 1
 
-def whatToLoadFromTitleScreen(playerAction):
-    """Load a screen depending on what the player has chosen in the title screen"""
-
-    if playerAction == "Nouvelle Partie":
-        #We load the first level
-        displayDK.displayLevel(1)
-
-    #We load the screen where the player can select a level
-    elif playerAction == "Selection des niveaux":
-        displayDK.displayLevelSelection()
-
-    #We quit the program
-    else:
-        pass
-
 

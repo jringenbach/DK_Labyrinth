@@ -167,10 +167,12 @@ class Level:
         #If the player coordinates match the end coordinates, he/she goes to
         #next level
         if playerCoordinates == self._get_end():
-            displayDK.displayLevel(self.numLevel+1)
+            #We return True because the player has finished the level
+            return True
 
         else:
-            pass
+            #We return False
+            return False
         
 
     def checkPlayerDies(self, player):
