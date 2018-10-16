@@ -36,7 +36,7 @@ class Player:
             nextCell = level._get_grille()[player_pos_y][player_pos_x+1]
             self.character.skin = "resources/img/sprites/dk_right.png"
 
-            if nextCell is not None and nextCell.element.blockThePlayer == True:
+            if nextCell.element is not None and nextCell.element.blockThePlayer == True:
                 print("Le joueur est bloqué")
                 
             else:
@@ -48,7 +48,7 @@ class Player:
             nextCell = level._get_grille()[player_pos_y][player_pos_x-1]
             self.character.skin = "resources/img/sprites/dk_left.png"
 
-            if nextCell is not None and nextCell.element.blockThePlayer == True:
+            if nextCell.element is not None and nextCell.element.blockThePlayer == True:
                 print("Le joueur est bloqué")
                 
             else:
@@ -60,7 +60,7 @@ class Player:
             nextCell = level._get_grille()[player_pos_y-1][player_pos_x]
             self.character.skin = "resources/img/sprites/dk_up.png"
 
-            if nextCell is not None and nextCell.element.blockThePlayer == True:
+            if nextCell.element is not None and nextCell.element.blockThePlayer == True:
                 print("Le joueur est bloqué")
 
 
@@ -73,7 +73,7 @@ class Player:
             nextCell = level._get_grille()[player_pos_y+1][player_pos_x]
             self.character.skin = "resources/img/sprites/dk_down.png"
 
-            if nextCell is not None and nextCell.element.blockThePlayer == True:
+            if nextCell.element is not None and nextCell.element.blockThePlayer == True:
                 print("Le joueur est bloqué")
 
             else:

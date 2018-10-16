@@ -64,7 +64,7 @@ def displayGrille(level):
     """We place all elements on the table"""
     for row in level._get_grille():
         for cell in row:
-            if cell is not None:
+            if cell.element is not None:
                 pos_x = cell.pos_x * 30
                 pos_y = cell.pos_y * 30
                 elementPNG = pygame.image.load(cell.element.skin).convert_alpha()
@@ -113,6 +113,10 @@ def displayLevel(numLevel):
                 playerPNG = pygame.image.load(player.character.skin).convert_alpha()
                 window.blit(playerPNG, (player.positionRect.x * 30, player.positionRect.y*30))
                 pygame.display.flip()
+
+                #We do multiple checks at the end of the player turn to see if
+                #he/she is on scroll, dies or wins.
+                level.checkPlayerOnScroll(player)
                 level.checkPlayerDies(player)
                 level.checkEndLevel(player)
            

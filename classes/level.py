@@ -32,6 +32,7 @@ class Level:
     :_scrolls: list that contains all coordinates of the scrolls in the level
     :_keys: list that contains all coordinates of the keys in the level
     :_box: list that contains all coordinates of the boxes in the level
+    :csvPath : path that link to the csv file containing the level (string)
     """
 
     def __init__(self, numLevel):
@@ -182,7 +183,22 @@ class Level:
                 if playerCoordinates == spike:
                     displayDK.displayLevel(self.numLevel)
                     
-            
+
+    def checkPlayerOnScroll(self, player):
+        """We check if the player is on a scroll. If it is the case, we display
+        the message
+
+        attributes:
+        :player: object of class Player that represents the player
+        """
+
+        player_x = player.positionRect.x
+        player_y = player.positionRect.y
+        cell = self._get_grille()[player_y][player_x]
+
+        #If the player is indeed on a scroll, we display the message
+        if cell.element is not None and cell.element.name == "scroll":
+            print(cell.element.message)
                     
 
     def loadingLevelElements(self, listElements):
@@ -241,7 +257,15 @@ class Level:
                 
                 for element in self._get_elements():
                     if cell == element.symbol:
-                        currentCell = Cell(j, i, element)
+                        #If it is a scroll, we instanciate the scroll with its message
+                        if cell == "P":
+                            scroll = Scrolls("No message yet.")
+                            scroll.loadScrollFromFile(j,i, self)
+                            currentCell = Cell(j, i, scroll)
+                            
+                        else:
+                            currentCell = Cell(j, i, element)
+
                         listCell.append(currentCell)
                         findSomething = True
 
@@ -253,7 +277,8 @@ class Level:
                     #filling table method
                     nbElementsInTheLevel = len(self._get_elements())                        
                     if findSomething == False and k >= nbElementsInTheLevel - 1:
-                        listCell.append(None)
+                        currentCell = Cell(j, i, None)
+                        listCell.append(currentCell)
                     k = k + 1
                 j = j + 1
             i = i + 1

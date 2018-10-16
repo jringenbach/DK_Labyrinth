@@ -1,0 +1,4 @@
+1:8:3:Pour vous déplacer, utilisez les touches directionnelles.:
+2:4:3:Les piques vous ramèneront au début du niveau.:
+2:5:6:Pfiou... c'est chaud ici, non?:
+2:8:6:Bien joué!:
