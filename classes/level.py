@@ -184,7 +184,7 @@ class Level:
                     displayDK.displayLevel(self.numLevel)
                     
 
-    def checkPlayerOnScroll(self, player):
+    def checkPlayerOnScroll(self, player, window):
         """We check if the player is on a scroll. If it is the case, we display
         the message
 
@@ -199,6 +199,7 @@ class Level:
         #If the player is indeed on a scroll, we display the message
         if cell.element is not None and cell.element.name == "scroll":
             print(cell.element.message)
+            cell.element.displayMessageOnWindow(window)
                     
 
     def loadingLevelElements(self, listElements):

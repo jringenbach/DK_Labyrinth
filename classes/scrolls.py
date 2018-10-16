@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import pygame
+from pygame.locals import *
 from classes.element import Element
 
 class Scrolls(Element):
@@ -34,6 +36,21 @@ class Scrolls(Element):
 
                 if scroll_x_read == x and scroll_y_read == y and scroll_level_read == level.numLevel:
                     self.message = rowTurnedToList[3]
+
+    def displayMessageOnWindow(self, window):
+        """Display the message that the scroll contains on the window where
+        the game is being played
+
+        Attributes:
+        :self: Scroll object that inherits from Element
+        :window: window where the game is displayed
+        """
+
+        messageFont = pygame.font.SysFont("comicsansms", 18)
+        messageRender = messageFont.render(self.message, True, (255,255,255))
+        window.blit(messageRender, (0,450))
+        pygame.display.flip()
+        
 
                 
         

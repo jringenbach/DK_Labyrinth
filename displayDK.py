@@ -100,6 +100,7 @@ def displayLevel(numLevel):
                 
     continuer = 1
 
+    #We display the level while the player hasn't finished it
     while continuer:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -107,7 +108,11 @@ def displayLevel(numLevel):
 
             #If the player press a key, we check if he can move
             elif event.type == KEYDOWN:
+                #We reset the screen by filling it with black color
+                window.fill(pygame.Color("black"))
                 player.move(level, event)
+
+                #We display background and elements of the level again
                 window.blit(background, (0,0))
                 displayGrille(level)
                 playerPNG = pygame.image.load(player.character.skin).convert_alpha()
@@ -116,7 +121,7 @@ def displayLevel(numLevel):
 
                 #We do multiple checks at the end of the player turn to see if
                 #he/she is on scroll, dies or wins.
-                level.checkPlayerOnScroll(player)
+                level.checkPlayerOnScroll(player, window)
                 level.checkPlayerDies(player)
                 level.checkEndLevel(player)
            
