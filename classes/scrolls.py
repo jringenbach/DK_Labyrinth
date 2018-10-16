@@ -25,16 +25,12 @@ class Scrolls(Element):
         with open("resources/scrolls.txt", "r") as fileRead:
             for row in fileRead:
                 rowTurnedToList = row.split(":")
-                print("rowTurnedToList")
-                print(rowTurnedToList)
+
+                #We set x and y with rowTurnedToList[.] minus 1 because in the csv
+                #file, cell starts at 1 and not 0 like in a list
                 scroll_level_read = int(rowTurnedToList[0])
                 scroll_x_read = int(rowTurnedToList[1]) - 1
                 scroll_y_read = int(rowTurnedToList[2]) - 1
-                print("test en x : "+str(scroll_x_read == x))
-                print("x player : "+str(x))
-                print("test en y : "+str(scroll_y_read == y))
-                print("y player : "+str(y))
-                print("test level : "+str(scroll_level_read == level.numLevel))
 
                 if scroll_x_read == x and scroll_y_read == y and scroll_level_read == level.numLevel:
                     self.message = rowTurnedToList[3]
