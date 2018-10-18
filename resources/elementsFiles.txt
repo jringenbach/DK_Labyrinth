@@ -4,4 +4,4 @@ F:resources/img/sprites/arrivee.png:arrivee:False:False:
 S:resources/img/sprites/spikes_30_30.png:spikes:True:False:
 P:resources/img/sprites/scroll_30_30.png:scroll:False:False:
 K:resources/img/sprites/key_30_30.png:key:False:False:
-B:resources/img/sprites/box_30_30.png:box:False:False
+B:resources/img/sprites/box_30_30.png:box:False:False:

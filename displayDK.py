@@ -8,6 +8,7 @@ import eventHandler
 import pygame
 import loading
 from pygame.locals import *
+from classes.box import Box
 from classes.cell import Cell
 from classes.scrolls import Scrolls
 from classes.level import Level
@@ -155,12 +156,20 @@ def displayLevel(numLevel, window):
                     loadLevel = False
                     continuer = 0
 
-                #If the player press a key, we check if he can move
+                #If the player presses a key, we check if he can move
                 elif event.type == KEYDOWN:
                     if event.key == K_r:
                         continuer = 0
-                    else:
-                        player.move(level, event)
+                    elif event.key == K_LEFT or event.key == K_RIGHT or event.key == K_UP or event.key == K_DOWN:
+                        #If the player will move on a cell where there is a box
+                        potentialBox = level.checkPlayerBoxes(player, event)
+                        if potentialBox is not None:
+                            box = potentialBox
+                            if box.canMove(player, level, event):
+                                player.move(level, event)
+
+                        else:
+                            player.move(level, event)
 
                     #If the player dies, he goes back to the starting point of the current level
                     if level.checkPlayerDies(player):

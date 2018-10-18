@@ -7,7 +7,9 @@
 
 import csv
 import pygame
+from pygame.locals import *
 import boolean
+from classes.box import Box
 from classes.element import Element
 from classes.cell import Cell
 from classes.scrolls import Scrolls
@@ -155,8 +157,79 @@ class Level:
 #------------------------------------------------------------------------
 #                               METHODS
 #------------------------------------------------------------------------
+    def cellIsEmpty(self, x, y):
+        """Check if the cell is empty. Return False if it is. True otherwise.  """
+
+
+        #If x and y are out of bounds, we return False
+        if x < 0 or y < 0:
+            return False
+
+        #Else we get the cell that interests us
+        else:
+            cell = self._get_grille()[y][x]
+
+        print(cell.element)
+        #If it is a box, depart, arrivee or spikes. The cell is not empty
+        if cell.element is None:
+            return True
+
+        elif cell.element.name == "box" or cell.element.name == "depart" or cell.element.name == "arrivee" or cell.element.name == "spikes":
+            return False
+        
+        #Else, it means there is nothing in the cell or an element the box can cross
+        else:
+            return True
+
+    def checkPlayerBoxes(self, player, event):
+        """Check if the player is on a cell where there is a box
+
+        Attributes:
+        :player: class Player
+        """
+        playerCoordinates = [player.positionRect.x, player.positionRect.y]
+        element = self._get_grille()[playerCoordinates[1]][playerCoordinates[0]].element
+
+        #If the player goes left
+        if event.key == K_LEFT:
+            playerCoordinates[0] -= 1
+            if playerCoordinates[0] >= 0:
+                element = self._get_grille()[playerCoordinates[1]][playerCoordinates[0]].element
+
+        #If the player goes right
+        elif event.key == K_RIGHT:
+            playerCoordinates[0] += 1
+            if playerCoordinates[0] < len(self._get_grille()[0]):
+                element = self._get_grille()[playerCoordinates[1]][playerCoordinates[0]].element
+
+        #If the player goes up
+        elif event.key == K_UP:
+            playerCoordinates[1] -= 1
+            if playerCoordinates[1] >= 0:
+                element = self._get_grille()[playerCoordinates[1]][playerCoordinates[0]].element
+
+        #If the player goes down
+        elif event.key == K_DOWN:
+            playerCoordinates[1] += 1
+            if playerCoordinates[1] < len(self._get_grille()):
+                element = self._get_grille()[playerCoordinates[1]][playerCoordinates[0]].element           
+
+        else:
+            pass
+        
+        if element is not None and element.symbol == "B":
+            print(element.name)
+            return element
+
+        else:
+            return None
+
     def checkEndLevel(self, player):
-        """We check if the player has reached the end of the level """
+        """We check if the player has reached the end of the level
+
+        Attributes:
+        :player: class Player
+        """
 
         playerCoordinates = (player.positionRect.x, player.positionRect.y)
 
@@ -261,6 +334,10 @@ class Level:
                             scroll = Scrolls("No message yet.")
                             scroll.loadScrollFromFile(j,i, self)
                             currentCell = Cell(j, i, scroll)
+
+                        elif cell == "B":
+                            box = Box()
+                            currentCell = Cell(j, i, box)
                             
                         else:
                             currentCell = Cell(j, i, element)
