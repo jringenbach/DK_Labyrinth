@@ -2,3 +2,5 @@ resources/levels/level1.csv
 resources/levels/level2.csv
 resources/levels/level3.csv
 resources/levels/level4.csv
+resources/levels/level5.csv
+resources/levels/level6.csv

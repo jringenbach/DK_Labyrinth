@@ -26,6 +26,7 @@ class Box(Element):
         Attributes:
         :player: class Player
         :level: class Level - The actual level that is being played
+        :event: class pygame.event - contains which key the player press
         """
         player_x = player.positionRect.x
         player_y = player.positionRect.y
@@ -65,11 +66,13 @@ class Box(Element):
         else:
             pass
 
+        #boxCanMove equals true if it can move, false otherwise
         boxCanMove = level.cellIsEmpty(x, y)
 
         #If the box can move. We move the box on the correct cell on the table
         if boxCanMove:
             level.grille[y][x].element = level._get_grille()[box_y][box_x].element
+            #And we empty the cell where the box was
             level._get_grille()[box_y][box_x].element = None
             return True
 

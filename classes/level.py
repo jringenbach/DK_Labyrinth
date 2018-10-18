@@ -169,12 +169,14 @@ class Level:
         else:
             cell = self._get_grille()[y][x]
 
-        print(cell.element)
-        #If it is a box, depart, arrivee or spikes. The cell is not empty
-        if cell.element is None:
-            return True
 
-        elif cell.element.name == "box" or cell.element.name == "depart" or cell.element.name == "arrivee" or cell.element.name == "spikes":
+        if cell.element is None:
+            print("Cell element is None")
+            return True
+        
+        #If it is a box, depart, arrivee, wall or spikes. The cell is not empty
+        elif cell.element.name == "box" or cell.element.name == "depart" or cell.element.name == "arrivee" or cell.element.name == "spikes" or cell.element.name == "mur":
+            print("Cell element : "+cell.element.name)
             return False
         
         #Else, it means there is nothing in the cell or an element the box can cross
